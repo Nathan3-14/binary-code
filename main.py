@@ -24,7 +24,7 @@ with open("./test.bin", "rb") as f:
 
 current_command = ""
 current_data: int | None = None
-for index in range(len(data)):
+for index in range(len(data)): #TODO CHANGE TO _ AND INCREASE INDEX SO 'GOTO' WORKS
     byte = data[index].to_bytes()
     print(f"{(str(index)+":").ljust(3)} {byte}")
 
