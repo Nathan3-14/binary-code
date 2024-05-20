@@ -36,7 +36,7 @@ for index in range(len(data)): #TODO CHANGE TO _ AND INCREASE INDEX SO 'GOTO' WO
             print(f"--> Data began on line {index}")
         
         case b"\x11":
-            print(f"--> Load data")
+            print(f"--> Load data") #TODO Make work
 
         case b"\x21":
             print(f"--> Add function")
