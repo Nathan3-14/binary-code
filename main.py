@@ -51,11 +51,10 @@ while index < len(data):
             load_index_address = index + 1
             load_index = (data[load_index_address]-240).to_bytes() #? 240 is F0 (which is what addresses start with)
 
-            print(data_start_index.to_bytes() + load_index)
-
             # temp_data: bytes = data[int.from_bytes(data_start_index.to_bytes()+load_index)].to_bytes() # type: ignore
             temp_data: bytes = data[data_start_index + int.from_bytes(load_index)].to_bytes() # type: ignore #! ERROR CANNOT GET ADDRESS 1
-            print(f"--> Loading data at ({load_index}), is {current_data}") #TODO Make work
+            print("aaa" + str(data_start_index + int.from_bytes(load_index)))
+            # print(f"--> Loading data at ({load_index}), is {current_data}") #TODO Make work
 
             match current_command:
                 case "add":
