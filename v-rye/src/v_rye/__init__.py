@@ -61,19 +61,31 @@ def execute_code(path: str) -> None:
 
                 # temp_data: bytes = data[int.from_bytes(data_start_index.to_bytes()+load_index)].to_bytes() # type: ignore
                 temp_data: bytes = data[data_start_index + load_index + 1].to_bytes() # type: ignore #? +1 for skipping "\bx02"
-                current_data = temp_data
+                temp_data: bytes = (int.from_bytes(temp_data) - 224).to_bytes() #? -224 is 14*16 (E0)
                 print(f"--> Loading data at ({load_index}), is {temp_data}")
 
-                # match current_command:
-                #     case "add":
-                #         current_data += temp_data
-                #     case _:
-                #         current_data = temp_data
+                match current_command:
+                    case "add":
+                        current_data = (int.from_bytes(temp_data) + int.from_bytes(current_data)).to_bytes()
+                    case _:
+                        current_data = temp_data
+                print(f"--> Set current data to {current_data}")
                 index += 1
             
+            case b"\x12":
+                save_index_address = index + 1
+                save_index: int = (data[save_index_address]-240) + data_start_index + 1 # account for 0 index
+                to_write = b""
+                for index, byte in enumerate(data):
+                    byte = byte.to_bytes()
+                    if index == save_index:
+                        to_write += current_data
+                    else:
+                        to_write += byte
+                open(path, "wb").write(to_write)
+
             case b"\x13":
                 print(int.from_bytes(current_data))
-        
 
         
         index += 1
