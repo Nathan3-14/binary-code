@@ -1,0 +1,30 @@
+[project]
+name = "v-rye"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "Nathan", email = "117750247+Nathan3-14@users.noreply.github.com" }
+]
+dependencies = [
+    "rich>=13.7.1",
+]
+readme = "README.md"
+requires-python = ">= 3.12"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = []
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/v_rye"]
+
+[project.scripts]
+hello = "v_rye:hello"
+test = "v_rye:test"
