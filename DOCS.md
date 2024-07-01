@@ -9,6 +9,7 @@
 ### 2x = Related to manipulation of active data
 - 21 = Add
 - 22 = Subtract
+- 23 = Set
 ### 3x = Related to code itself
 - 31 = Goto Line (address)
 - 32 = If data (condition) (address) do (command)

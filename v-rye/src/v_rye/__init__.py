@@ -10,7 +10,7 @@ import datetime
 from rich import print as rprint
 class Main:
     def __init__(self, filename: str):
-        self.current_command = ""
+        self.current_command = "set"
 
         self.path = filename
         self.data: bytes = b""
@@ -43,6 +43,8 @@ class Main:
                 self.current_data = (int.from_bytes(temp_data) + int.from_bytes(self.current_data)).to_bytes()
             case "subtract":
                 self.current_data = (int.from_bytes(temp_data) - int.from_bytes(self.current_data)).to_bytes()
+            case "set":
+                self.current_data = temp_data
             case _:
                 self.current_data = temp_data
         self.colour_print(f"--> Set current data to {str(self.current_data)}")
@@ -67,11 +69,14 @@ class Main:
     def _22(self) -> None:
         self.current_command = "subtract"
         self.colour_print(f"--> Subtract function")
+    def _23(self) -> None:
+        self.current_command = "set"
+        self.colour_print(f"--> Set function")
     
     def _31(self) -> None:
-        self.colour_print("--> Goto")
-
         goto_location = self.data[self.index+1] - 240 #? Because 240 is "Fx"
+        
+        self.colour_print(f"--> Goto {goto_location}")
 
         self.index = goto_location - 1
     def _32(self) -> None:
@@ -119,6 +124,8 @@ class Main:
                     self._21()
                 case b"\x22": #* Subtract operator
                     self._22()
+                case b"\x23": #* Set operator
+                    self._23()
 
                 case b"\x11": #* Load Data
                     self._11()
@@ -127,6 +134,8 @@ class Main:
                 case b"\x13": #* Output Data
                     self._13()
 
+                case b"\x31": #* Goto Statment
+                    self._31()
                 case b"\x32": #* If statement
                     self._32()
 
